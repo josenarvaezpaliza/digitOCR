@@ -25,7 +25,7 @@ SECRET_KEY = 'wn_f(e9!rty$38^#fm*z$b9aot!p-$)hbzgql9+#*w(x@eef!q'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['digitocr.herokuapp.com', 'localhost']
 
 
 # Application definition
