@@ -23,9 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'wn_f(e9!rty$38^#fm*z$b9aot!p-$)hbzgql9+#*w(x@eef!q'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['digitocr.herokuapp.com', 'localhost']
+ALLOWED_HOSTS = ['digitocr.herokuapp.com', '127.0.0.1']
 
 
 # Application definition
