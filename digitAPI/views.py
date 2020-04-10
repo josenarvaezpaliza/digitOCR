@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
+from django.http import HttpResponse
 import numpy as np
 import urllib
 import json
@@ -147,7 +148,8 @@ import tensorflow as tf
 @csrf_exempt
 def detect(request):
     # initialize the data dictionary to be returned by the request
-    data = {"success": False, "method":"none"}
+    # data = {"success": False, "method":"none"}
+    data = "no data"
 
     # if request.method == "GET":
     #     val = json.loads(request.body)['key']
@@ -176,9 +178,12 @@ def detect(request):
         # content = int(body['key']) +2
 
 
-        data.update({"success":True, "method": "post"})
+        # data.update({"success":True, "method": "post"})
+        data = "Succesfull"
 
-    return JsonResponse(data)
+    return HttpResponse(data)
+    
+    # return JsonResponse(data)
 
 
     #     # received_json_data = json.loads(request.body.decode("utf-8"))
