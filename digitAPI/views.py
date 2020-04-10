@@ -152,8 +152,12 @@ def detect(request):
     # check to see if this is a post request
     if request.method == "POST":
 
-        received_json_data = json.loads(request.body.decode("utf-8"))
-        data.update({"success":True, "json": received_json_data})
+        data.update({"success":True})
+        return JsonResponse(data)
+
+
+        # received_json_data = json.loads(request.body.decode("utf-8"))
+        # data.update({"success":True, "json": received_json_data})
 
         # name = request.POST.get("name")
         # lastname = request.POST.get("lastname")
