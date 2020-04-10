@@ -150,8 +150,9 @@ def detect(request):
     data = {"success": False, "method":"none"}
 
     if request.method == "GET":
+        JSONdata = json.loads(request.body.decode("utf-8"))
 
-        data.update({"success":True, "method": "get"})
+        data.update({"success":True, "method": "get", "JSONdata":JSONdata })
         return JsonResponse(data)
 
     # check to see if this is a post request
