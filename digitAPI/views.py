@@ -150,9 +150,10 @@ def detect(request):
     data = {"success": False, "method":"none"}
 
     if request.method == "GET":
-        # val = json.loads(request.body)['key']
+        val = json.loads(request.body)['key']
+        val = val + "yes"
         # data.update({"success":True, "method": "get", "JSONdata":val })
-        data.update({"success":True, "method": "get"})
+        data.update({"success":True, "method": "get2"})
 
         return JsonResponse(data)
         
@@ -160,10 +161,10 @@ def detect(request):
     elif request.method == "POST":
 
         # JSONdata = json.loads(request.body.decode("utf-8"))
-        # val = json.loads(request.body)['key']
+        val = json.loads(request.body)['key']
         # data.update({"success":True, "method": "post", "JSONdata":val })
 
-        data.update({"success":True, "method": "post"})
+        data.update({"success":True, "method": "posts"})
 
         return JsonResponse(data)
 
