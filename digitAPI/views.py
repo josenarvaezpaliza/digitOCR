@@ -162,7 +162,8 @@ def detect(request):
     # check to see if this is a post request
     if request.method == "GET":
 
-        JSONresponse = "{'status':'true', 'data': {'name':'ralph', 'hobby':'tennis' }}"
+        sent_data = request.body.decode("utf-8")
+        JSONresponse = "{'status':'true', 'data': {'name':'ralph', 'hobby':'tennis' }}"+ sent_data
 
     elif request.method == "POST":
 
