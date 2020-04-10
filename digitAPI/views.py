@@ -147,12 +147,17 @@ import tensorflow as tf
 @csrf_exempt
 def detect(request):
     # initialize the data dictionary to be returned by the request
-    data = {"success": False}
+    data = {"success": False, "method":"none"}
+
+    if request.method == "GET":
+
+        data.update({"success":True, "method": "post"})
+        return JsonResponse(data)
 
     # check to see if this is a post request
-    if request.method == "POST":
+    elif request.method == "POST":
 
-        data.update({"success":True})
+        data.update({"success":True, "method": "post"})
         return JsonResponse(data)
 
 
