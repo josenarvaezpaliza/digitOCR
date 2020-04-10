@@ -157,7 +157,11 @@ def detect(request):
     # check to see if this is a post request
     elif request.method == "POST":
 
-        data.update({"success":True, "method": "post"})
+        JSONdata = json.loads(request.body.decode("utf-8"))
+
+        data.update({"success":True, "method": "post", "JSONdata":JSONdata })
+
+        
         return JsonResponse(data)
 
 
