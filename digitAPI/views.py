@@ -149,112 +149,124 @@ def detect(request):
     # initialize the data dictionary to be returned by the request
     data = {"success": False, "method":"none"}
 
-    if request.method == "GET":
-        val = json.loads(request.body)['key']
-        val = val + "yes"
-        # data.update({"success":True, "method": "get", "JSONdata":val })
-        data.update({"success":True, "method": "get2"})
+    # if request.method == "GET":
+    #     val = json.loads(request.body)['key']
+    #     val = val + "yes"
+    #     # data.update({"success":True, "method": "get", "JSONdata":val })
+    #     data.update({"success":True, "method": "get2"})
 
-        return JsonResponse(data)
+    #     return JsonResponse(data)
         
     # check to see if this is a post request
-    elif request.method == "POST":
+    if request.method == "POST":
 
         # JSONdata = json.loads(request.body.decode("utf-8"))
-        val = json.loads(request.body)['key']
-        # data.update({"success":True, "method": "post", "JSONdata":val })
+        # val = json.loads(request.body)['key']
+        # val = request.body['key']
+        # body_unicode = request.body.decode('utf-8')
+        # body = json.loads(body_unicode)
+        # content = int(body['key']) +2
 
-        data.update({"success":True, "method": "posts"})
-
-        return JsonResponse(data)
+        # body = request.body # json object
 
 
-        # received_json_data = json.loads(request.body.decode("utf-8"))
-        # data.update({"success":True, "json": received_json_data})
 
-        # name = request.POST.get("name")
-        # lastname = request.POST.get("lastname")
+        # body_unicode = request.body.decode('utf-8')
+        # body = json.loads(body_unicode)
+        # content = int(body['key']) +2
 
-        # d = request.POST
 
-        # data.update({"success":True, "name":name, "lastname":lastname, "d":d  })
-
-        # check to see if an image was uploaded
-        if request.FILES.get("image", None) is not None:
-            # grab the uploaded image
-            image = _grab_image(stream=request.FILES["image"])
-            # otherwise, assume that a URL was passed in
-        else:
-            # grab the URL from the request
-            url = request.POST.get("url", None)
-            # if the URL is None, then return an error
-            if url is None:
-                data["error"] = "No URL provided."
-                return JsonResponse(data)
-            # load the image and convert
-            image = _grab_image(url=url)
-
-        # storing upper left corner and down right corner
-        coordinates = []
-
-        interval = 1
-        initial = 0
-        final = initial+interval
-        l = 0
-        r = 0
-
-        row, column = image.shape
-        index = 0
-
-        while (initial+interval < column):
-            partial = image[:,initial:final]
-            next_partial = image[:, final:final+interval]
-
-            if (np.count_nonzero(partial == 1) == 0 and np.count_nonzero(next_partial == 1) != 0 ):
-                temp_list = []
-                l_x = final
-                temp_list.append(l_x)
-                coordinates.append(temp_list)
-                l=l+1
-
-            if ((np.count_nonzero(partial == 1) != 0 and np.count_nonzero(next_partial == 1) == 0) or (final == column-1 and r == l-1)):
-                r_x = final
-                coordinates[index].append(r_x)
-                index = index + 1
-                r=r+1
-
-            # increase frame
-            initial = initial+interval
-            final = final+interval
-
-        model_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'saved_model/digit_detection')
-        model = tf.keras.models.load_model(model_path)
-
-        prediction_list = []
-
-        for l_x,r_x in coordinates:
-            temp_img = image[:,l_x:r_x]
-            y,x = temp_img.shape
-
-            to_add = int((64 - x)/2)
-            diff = 64 - (x+ (to_add *2))
-            to_add_left = to_add
-            to_add_right = to_add + diff
-
-            temp_img = np.append(temp_img, np.zeros((64,to_add_left )), axis=1)
-            temp_img = np.append(np.zeros((64,to_add_right )),temp_img, axis=1)
-
-            # prediction
-            prediction_input = np.array([temp_img])
-            prediction = model.predict(prediction_input)
-            prediction = np.argmax(prediction)
-            prediction_list.append(prediction)
-
-        data.update({"num_digits": len(prediction_list), "success": True})
-        for index in prediction_list:
-            data.update({str(index): str(prediction_list[index])})
+        data.update({"success":True, "method": "post"})
 
     return JsonResponse(data)
+
+
+    #     # received_json_data = json.loads(request.body.decode("utf-8"))
+    #     # data.update({"success":True, "json": received_json_data})
+
+    #     # name = request.POST.get("name")
+    #     # lastname = request.POST.get("lastname")
+
+    #     # d = request.POST
+
+    #     # data.update({"success":True, "name":name, "lastname":lastname, "d":d  })
+
+    #     # check to see if an image was uploaded
+    #     if request.FILES.get("image", None) is not None:
+    #         # grab the uploaded image
+    #         image = _grab_image(stream=request.FILES["image"])
+    #         # otherwise, assume that a URL was passed in
+    #     else:
+    #         # grab the URL from the request
+    #         url = request.POST.get("url", None)
+    #         # if the URL is None, then return an error
+    #         if url is None:
+    #             data["error"] = "No URL provided."
+    #             return JsonResponse(data)
+    #         # load the image and convert
+    #         image = _grab_image(url=url)
+
+    #     # storing upper left corner and down right corner
+    #     coordinates = []
+
+    #     interval = 1
+    #     initial = 0
+    #     final = initial+interval
+    #     l = 0
+    #     r = 0
+
+    #     row, column = image.shape
+    #     index = 0
+
+    #     while (initial+interval < column):
+    #         partial = image[:,initial:final]
+    #         next_partial = image[:, final:final+interval]
+
+    #         if (np.count_nonzero(partial == 1) == 0 and np.count_nonzero(next_partial == 1) != 0 ):
+    #             temp_list = []
+    #             l_x = final
+    #             temp_list.append(l_x)
+    #             coordinates.append(temp_list)
+    #             l=l+1
+
+    #         if ((np.count_nonzero(partial == 1) != 0 and np.count_nonzero(next_partial == 1) == 0) or (final == column-1 and r == l-1)):
+    #             r_x = final
+    #             coordinates[index].append(r_x)
+    #             index = index + 1
+    #             r=r+1
+
+    #         # increase frame
+    #         initial = initial+interval
+    #         final = final+interval
+
+    #     model_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'saved_model/digit_detection')
+    #     model = tf.keras.models.load_model(model_path)
+
+    #     prediction_list = []
+
+    #     for l_x,r_x in coordinates:
+    #         temp_img = image[:,l_x:r_x]
+    #         y,x = temp_img.shape
+
+    #         to_add = int((64 - x)/2)
+    #         diff = 64 - (x+ (to_add *2))
+    #         to_add_left = to_add
+    #         to_add_right = to_add + diff
+
+    #         temp_img = np.append(temp_img, np.zeros((64,to_add_left )), axis=1)
+    #         temp_img = np.append(np.zeros((64,to_add_right )),temp_img, axis=1)
+
+    #         # prediction
+    #         prediction_input = np.array([temp_img])
+    #         prediction = model.predict(prediction_input)
+    #         prediction = np.argmax(prediction)
+    #         prediction_list.append(prediction)
+
+    #     data.update({"num_digits": len(prediction_list), "success": True})
+    #     for index in prediction_list:
+    #         data.update({str(index): str(prediction_list[index])})
+
+    # return JsonResponse(data)
 
 def _grab_image(path=None, stream=None, url=None):
     # if the path is not None, then load the image from disk
