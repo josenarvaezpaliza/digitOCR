@@ -149,7 +149,7 @@ import tensorflow as tf
 def detect(request):
     # initialize the data dictionary to be returned by the request
     # data = {"success": False, "method":"none"}
-    data = "no data"
+    JSONresponse = "{'status':'false'}"
 
     # if request.method == "GET":
     #     val = json.loads(request.body)['key']
@@ -160,7 +160,13 @@ def detect(request):
     #     return JsonResponse(data)
         
     # check to see if this is a post request
-    if request.method == "POST":
+    if request.method == "GET":
+
+        JSONresponse = "{'status':'true', 'data': {'name':'ralph', 'hobby':'tennis' }}"
+
+    elif request.method == "POST":
+
+        JSONresponse = "{'status':'true', 'data': {'name':'bob', 'hobby':'running' }}"
 
         # JSONdata = json.loads(request.body.decode("utf-8"))
         # val = json.loads(request.body)['key']
@@ -179,10 +185,10 @@ def detect(request):
 
 
         # data.update({"success":True, "method": "post"})
-        data = "Succesfull"
+        # data = "Succesfull"
 
-    return HttpResponse(data)
-    
+    return HttpResponse(JSONresponse)
+
     # return JsonResponse(data)
 
 
