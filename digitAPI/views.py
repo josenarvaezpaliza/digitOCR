@@ -151,17 +151,23 @@ def detect(request):
 
     if request.method == "GET":
 
-        body = json.loads(request.body.decode("utf-8"))
-        name = body['name']
-        job = body['job']
-        data.update({'success': True, 'method': 'GET', 'name': name, 'job':job})
-    
+        try:
+            body = json.loads(request.body.decode("utf-8"))
+            name = body['name']
+            job = body['job']
+            data.update({'success': True, 'method': 'GET', 'name': name, 'job':job})
+        except:
+            data.update({'success': True, 'method': 'GET'})
+
     if request.method == "POST":
-        body = json.loads(request.body.decode("utf-8"))
-        name = body['name']
-        job = body['job']
-        data.update({'success': True, 'method': 'POST', 'name': name, 'job':job})
-    
+        try:
+            body = json.loads(request.body.decode("utf-8"))
+            name = body['name']
+            job = body['job']
+            data.update({'success': True, 'method': 'POST', 'name': name, 'job':job})
+        except:
+            data.update({'success': True, 'method': 'POST'})
+            
     return JsonResponse(data)
 
 
