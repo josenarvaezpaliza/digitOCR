@@ -164,6 +164,9 @@ def detect(request):
 
         JSONresponse = "{'status':'true', 'field1': 'yes0'}"
 
+        if request.FILES.get("name", None) is not None:
+            JSONresponse = JSONresponse + "{'status':'true', 'field1': 'yes!!'}"
+
         if request.body is not None:
             JSONresponse = JSONresponse + "{'status':'true', 'field1': 'yes!'}"
 
