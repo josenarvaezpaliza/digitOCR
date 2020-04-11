@@ -163,9 +163,9 @@ def detect(request):
     if request.method == "GET":
 
         if 'name' in request.GET:
-            JSONresponse = "{'status':'true', 'field1': 'yes1'}
+            JSONresponse = "{'status':'true', 'field1': 'yes1'}"
         else:
-            JSONresponse = "{'status':'true', 'field1': 'yes2'}
+            JSONresponse = "{'status':'true', 'field1': 'yes2'}"
 
         # sent_data = json.loads(request.body.decode("utf-8"))['name']
 
