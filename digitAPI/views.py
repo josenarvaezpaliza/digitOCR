@@ -162,9 +162,14 @@ def detect(request):
     # check to see if this is a post request
     if request.method == "GET":
 
-        sent_data = json.loads(request.body.decode("utf-8"))['name']
+        if 'name' in request.GET:
+            JSONresponse = "{'status':'true', 'field1': 'yes1'}
+        else:
+            JSONresponse = "{'status':'true', 'field1': 'yes2'}
 
-        JSONresponse = "{'status':'true', 'data': {'name':'ralph', 'hobby':'tennis'}}"+ sent_data
+        # sent_data = json.loads(request.body.decode("utf-8"))['name']
+
+        # JSONresponse = "{'status':'true', 'data': {'name':'ralph', 'hobby':'tennis'}}"+ sent_data
 
     elif request.method == "POST":
 
@@ -281,44 +286,44 @@ def detect(request):
 
     # return JsonResponse(data)
 
-def _grab_image(path=None, stream=None, url=None):
-    # if the path is not None, then load the image from disk
-    if path is not None:
-        image = imread(path, cv2.IMREAD_GRAYSCALE)
-        image = process_img(image)
+# def _grab_image(path=None, stream=None, url=None):
+#     # if the path is not None, then load the image from disk
+#     if path is not None:
+#         image = imread(path, cv2.IMREAD_GRAYSCALE)
+#         image = process_img(image)
         
-    # otherwise, the image does not reside on disk
-    else:	
-        # if the URL is not None, then download the image
-        if url is not None:
-            resp = urllib.urlopen(url)
-            data = resp.read()
-        # if the stream is not None, then the image has been uploaded
-        elif stream is not None:
-            data = stream.read()
-        # convert the image to a NumPy array and then read it into
-        # OpenCV format
-        image = np.asarray(bytearray(data), dtype="uint8")
-        image = cv2.imdecode(image, cv2.IMREAD_GRAYSCALE)
-        image = process_img(image)
+#     # otherwise, the image does not reside on disk
+#     else:	
+#         # if the URL is not None, then download the image
+#         if url is not None:
+#             resp = urllib.urlopen(url)
+#             data = resp.read()
+#         # if the stream is not None, then the image has been uploaded
+#         elif stream is not None:
+#             data = stream.read()
+#         # convert the image to a NumPy array and then read it into
+#         # OpenCV format
+#         image = np.asarray(bytearray(data), dtype="uint8")
+#         image = cv2.imdecode(image, cv2.IMREAD_GRAYSCALE)
+#         image = process_img(image)
 
 
-    # return the image
-    return image
+#     # return the image
+#     return image
 
-# Create your views here.
+# # Create your views here.
 
-def process_img(image):
+# def process_img(image):
 
-    img = cv2.resize(image,(64,64))
-    thresh = cv2.threshold(img, 0, 255,cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1]
-    kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (1, 5))
-    thresh = cv2.morphologyEx(thresh, cv2.MORPH_OPEN, kernel)
-    thresh = thresh/255.0
-    thresh = thresh.astype(int)
-    #invert colours
-    if (np.bincount(thresh.flatten()).argmax()) == 1:
-        thresh = 1-thresh
+#     img = cv2.resize(image,(64,64))
+#     thresh = cv2.threshold(img, 0, 255,cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1]
+#     kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (1, 5))
+#     thresh = cv2.morphologyEx(thresh, cv2.MORPH_OPEN, kernel)
+#     thresh = thresh/255.0
+#     thresh = thresh.astype(int)
+#     #invert colours
+#     if (np.bincount(thresh.flatten()).argmax()) == 1:
+#         thresh = 1-thresh
 
-    return thresh
+#     return thresh
 
