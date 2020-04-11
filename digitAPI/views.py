@@ -160,7 +160,7 @@ def detect(request):
     #     return JsonResponse(data)
         
     # check to see if this is a post request
-    if request.method == "GET":
+    if request.method == "POST":
 
         JSONresponse = "{'status':'true', 'field1': 'yes0'}"
 
@@ -190,7 +190,7 @@ def detect(request):
 
         # JSONresponse = "{'status':'true', 'data': {'name':'ralph', 'hobby':'tennis'}}"+ sent_data
 
-    elif request.method == "POST":
+    elif request.method == "GET":
 
         JSONresponse = "{'status':'true', 'data': {'name':'bob', 'hobby':'running' }}"
 
