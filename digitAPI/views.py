@@ -150,10 +150,17 @@ def detect(request):
     data = {'success':False}
 
     if request.method == "GET":
-        data.update({'success': True, 'method': 'GET'})
+
+        body = json.loads(request.body.decode("utf-8"))
+        name = body['name']
+        job = body['job']
+        data.update({'success': True, 'method': 'GET', 'name': name, 'job':job})
     
     if request.method == "POST":
-        data.update({'success': True, 'method': 'POST'})
+        body = json.loads(request.body.decode("utf-8"))
+        name = body['name']
+        job = body['job']
+        data.update({'success': True, 'method': 'POST', 'name': name, 'job':job})
     
     return JsonResponse(data)
 
