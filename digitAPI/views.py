@@ -150,10 +150,10 @@ def detect(request):
     data = {'success':False}
 
     if request.method == "GET":
-        data.update({'method': 'GET'})
+        data.update({'success': True, 'method': 'GET'})
     
     if request.method == "POST":
-        data.update({'method': 'POST'})
+        data.update({'success': True, 'method': 'POST'})
     
     return JsonResponse(data)
 
