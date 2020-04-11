@@ -162,10 +162,23 @@ def detect(request):
     # check to see if this is a post request
     if request.method == "GET":
 
+        JSONresponse = "{'status':'true', 'field1': 'yes0'}"
+
         if 'name' in request.GET:
-            JSONresponse = "{'status':'true', 'field1': 'yes1'}"
-        else:
-            JSONresponse = "{'status':'true', 'field1': 'yes2'}"
+            JSONresponse = JSONresponse + "{'status':'true', 'field1': 'yes1'}"
+
+        if 'jose' in request.GET:
+            JSONresponse = JSONresponse + "{'status':'true', 'field1': 'yes2'}"
+
+        if 'name' in request.POST:
+            JSONresponse = JSONresponse + "{'status':'true', 'field1': 'yes3'}"
+
+        if 'jose' in request.POST:
+            JSONresponse = JSONresponse + "{'status':'true', 'field1': 'yes4'}"
+
+        if request.POST.get("name", None) is not None:
+            JSONresponse = JSONresponse + "{'status':'true', 'field1': 'yes5'}"
+
 
         # sent_data = json.loads(request.body.decode("utf-8"))['name']
 
