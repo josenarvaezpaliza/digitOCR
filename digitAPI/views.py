@@ -149,15 +149,15 @@ import tensorflow as tf
 def detect(request):
     data = {'success':False}
 
-    if request.method == "GET":
+    # if request.method == "GET":
 
-        try:
-            body = json.loads(request.body.decode("utf-8"))
-            name = body['name']
-            job = body['job']
-            data.update({'success': True, 'method': 'GET', 'name': name, 'job':job})
-        except:
-            data.update({'success': True, 'method': 'GET'})
+    #     try:
+    #         body = json.loads(request.body.decode("utf-8"))
+    #         name = body['name']
+    #         job = body['job']
+    #         data.update({'success': True, 'method': 'GET', 'name': name, 'job':job})
+    #     except:
+    #         data.update({'success': True, 'method': 'GET'})
 
     if request.method == "POST":
         try:
@@ -167,7 +167,7 @@ def detect(request):
             data.update({'success': True, 'method': 'POST', 'name': name, 'job':job})
         except:
             data.update({'success': True, 'method': 'POST'})
-            
+
     return JsonResponse(data)
 
 
