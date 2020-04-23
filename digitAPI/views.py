@@ -168,6 +168,17 @@ def detect(request):
         except:
             data.update({'success': True, 'method': 'POST'})
 
+    if request.method == "GET":
+        try:
+            name = request.GET['name']
+            name_return = "yes"+name
+            # body = json.loads(request.body.decode("utf-8"))
+            # name = body['name']
+            # job = body['job']
+            data.update({'success': True, 'method': 'GET', 'name': name_return})
+        except:
+            data.update({'success': True, 'method': 'GET'})
+
     return JsonResponse(data)
 
 
