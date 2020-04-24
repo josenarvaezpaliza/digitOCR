@@ -7,7 +7,10 @@ import urllib
 import json
 import cv2
 import os
+import base64
+import io
 import tensorflow as tf
+
 
 # @csrf_exempt
 # def detect(request):
