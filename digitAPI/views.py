@@ -192,7 +192,6 @@ def pre_process(img):
     #invert colours
     if (np.bincount(thresh.flatten()).argmax()) == 1:
         thresh = 1-thresh
-    plot(thresh)
     return thresh
 
 def extract_digits(img):
