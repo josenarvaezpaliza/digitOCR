@@ -237,31 +237,31 @@ def predict_digits(img, model):
     img = pre_process(img)
     coordinates = extract_digits(img)
     
-    # prediction_list = []
+    prediction_list = []
     
-    # for coordinate in coordinates:
-    #     l_x = coordinate[0]
-    #     r_x = coordinate[1]
+    for coordinate in coordinates:
+        l_x = coordinate[0]
+        r_x = coordinate[1]
 
-    #     if (r_x - l_x < 10):
-    #         continue
+        if (r_x - l_x < 10):
+            continue
 
-    #     temp_img = img[:,l_x:r_x]
-    #     y,x = temp_img.shape
+        temp_img = img[:,l_x:r_x]
+        y,x = temp_img.shape
 
-    #     # add half and half
-    #     to_add = int((y - x)/2)
-    #     diff = y - (x+ (to_add *2))
-    #     to_add_left = to_add
-    #     to_add_right = to_add + diff
+        # add half and half
+        to_add = int((y - x)/2)
+        diff = y - (x+ (to_add *2))
+        to_add_left = to_add
+        to_add_right = to_add + diff
         
-    #     temp_img = np.append(temp_img, np.zeros((y,to_add_left )), axis=1)
-    #     temp_img = np.append(np.zeros((y,to_add_right )),temp_img, axis=1)
+        temp_img = np.append(temp_img, np.zeros((y,to_add_left )), axis=1)
+        temp_img = np.append(np.zeros((y,to_add_right )),temp_img, axis=1)
 
-    #     temp_img = cv2.resize(temp_img,(64,64))
+        temp_img = cv2.resize(temp_img,(64,64))
 
-    #     prediction = predict_digit(model, temp_img)
-    #     prediction_list.append(prediction)
+        prediction = predict_digit(model, temp_img)
+        prediction_list.append(prediction)
 
     # return prediction_list
-    return coordinates
+    return prediction
