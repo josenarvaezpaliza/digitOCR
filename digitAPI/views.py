@@ -164,8 +164,11 @@ def detect(request):
             body = json.loads(request.body.decode("utf-8"))
             name = body['name']
             job = body['job']
-            image = len(body['image'])
-            data.update({'success': True, 'method': 'POST', 'name': name, 'job':job, 'image':image})
+            base64_string = body['image']
+            decoded_data = base64.b64decode(base64_string)
+            np_data = np.frombuffer(decoded_data,np.uint8)
+            img = cv2.imdecode(np_data,cv2.IMREAD_GRAYSCALE)
+            data.update({'success': True, 'method': 'POST', 'name': name, 'job':job, 'image':img.shape})
         except:
             data.update({'success': True, 'method': 'POST'})
 
