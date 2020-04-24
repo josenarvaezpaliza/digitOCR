@@ -165,9 +165,9 @@ def detect(request):
             model_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'saved_model/digit_detection')
             model = tf.keras.models.load_model(model_path)
             # Prediction
-            prediction = predict_digits(img,model)
+            prediction_list,coordinates = predict_digits(img,model)
             # Update response data
-            data.update({'success': True, 'method': 'POST', 'name': name, 'job':job, 'image':prediction})
+            data.update({'success': True, 'method': 'POST', 'prediction':prediction_list, 'coordinates': coordinates})
         except:
             data.update({'success': True, 'method': 'POST'})
     return JsonResponse(data)
@@ -264,4 +264,4 @@ def predict_digits(img, model):
         prediction_list.append(prediction)
 
     # return prediction_list
-    return prediction
+    return (prediction_list, coordinates)
