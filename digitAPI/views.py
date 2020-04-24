@@ -154,8 +154,6 @@ def detect(request):
     if request.method == "POST":
         try:
             body = json.loads(request.body.decode("utf-8"))
-            name = body['name']
-            job = body['job']
             base64_string = body['image']
             decoded_data = base64.b64decode(base64_string)
             np_data = np.frombuffer(decoded_data,np.uint8)
@@ -165,7 +163,7 @@ def detect(request):
             model_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'saved_model/digit_detection')
             model = tf.keras.models.load_model(model_path)
             # Prediction
-            prediction_list,coordinates = predict_digits(img,model)
+            (prediction_list,coordinates) = predict_digits(img,model)
             # Update response data
             data.update({'success': True, 'method': 'POST', 'prediction':prediction_list, 'coordinates': coordinates})
         except:
