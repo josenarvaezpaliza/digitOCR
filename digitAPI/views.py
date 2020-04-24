@@ -164,7 +164,7 @@ def detect(request):
             body = json.loads(request.body.decode("utf-8"))
             name = body['name']
             job = body['job']
-            image = body['image']
+            image = len(body['image'])
             data.update({'success': True, 'method': 'POST', 'name': name, 'job':job, 'image':image})
         except:
             data.update({'success': True, 'method': 'POST'})
