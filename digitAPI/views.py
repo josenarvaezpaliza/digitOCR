@@ -163,7 +163,7 @@ def detect(request):
             model_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'saved_model/digit_detection')
             model = tf.keras.models.load_model(model_path)
             # Prediction
-            (prediction_list,coordinates) = predict_digits(img,model)
+            (coordinates) = predict_digits(img,model)
             # Update response data
             data.update({'success': True, 'method': 'POST', 'prediction':prediction_list, 'coordinates': coordinates})
         except:
@@ -262,4 +262,4 @@ def predict_digits(img, model):
         prediction_list.append(prediction)
 
     # return prediction_list
-    return (prediction_list, coordinates)
+    return (coordinates)
