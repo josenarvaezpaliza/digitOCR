@@ -161,15 +161,23 @@ def detect(request):
             prediction_count = 1
             #crop image according to bounding boxes
             bounding_boxes = body['boxes']
-            for box in bounding_boxes:
-                x1 = box[0]
-                y1 = box[1]
-                x2 = box[2]
-                y2 = box[3]
-                temp_img = image[y1:y2, x1:x2]
-                prediction = predict_digits(temp_img, model)
-                data.update({"prediction"+prediction_count: prediction})
-                prediction_count = prediction_count+1
+            x1 = box[0][0]
+            y1 = box[0][1]
+            x2 = box[0][2]
+            y2 = box[0][3]
+            image = image[y1:y2, x1:x2]
+            prediction = predict_digits(image, model)
+            data.update({"success": True ,"prediction": prediction})
+
+            # for box in bounding_boxes:
+            #     x1 = box[0]
+            #     y1 = box[1]
+            #     x2 = box[2]
+            #     y2 = box[3]
+            #     temp_img = image[y1:y2, x1:x2]
+            #     prediction = predict_digits(temp_img, model)
+            #     data.update({"prediction"+prediction_count: prediction})
+            #     prediction_count = prediction_count+1
 
             # #PREDICTION
             # # prediction = predict_digits(image, model)
