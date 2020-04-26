@@ -192,10 +192,10 @@ def detect(request):
             #crop image according to bounding boxes
             bounding_boxes = body['boxes']
             for box in bounding_boxes:
-                x1 = float(box[0])
-                y1 = float(box[1])
-                x2 = float(box[2])
-                y2 = float(box[3])
+                x1 = int(box[0])
+                y1 = int(box[1])
+                x2 = int(box[2])
+                y2 = int(box[3])
                 data.update({"x1": x1, "y1": y1, "x2": x2, "y2": y2})
 
                 temp_img = image[y1:y2, x1:x2]
