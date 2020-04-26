@@ -158,21 +158,24 @@ def detect(request):
             # Grayscale image
             image = cv2.imdecode(np_data,cv2.IMREAD_GRAYSCALE)
 
-            #PREDICTION
-            prediction = predict_digits(image, model)
-
-
-            # GETTING bounding boxes
+            prediction_count = 1
+            #crop image according to bounding boxes
             bounding_boxes = body['boxes']
             for box in bounding_boxes:
                 x1 = box[0]
                 y1 = box[1]
                 x2 = box[2]
                 y2 = box[3]
-                data.update({"success": True ,"x1":x1, "y1":y1, "x2":x2, "y2":y2})
+                temp_img = image[y1:y2, x1:x2]
+                prediction = predict_digits(temp_img, model)
+                data.update({"prediction"+prediction_count: prediction})
+                prediction_count = prediction_count+1
 
-            #UPDATE DATA
-            data.update({"success": True ,"prediction": prediction})
+            # #PREDICTION
+            # # prediction = predict_digits(image, model)
+
+            # #UPDATE DATA
+            # data.update({"success": True ,"prediction": prediction})
         except:
             data.update({"success": True ,"prediction": "ERROR"})
 
