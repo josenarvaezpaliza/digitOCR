@@ -152,32 +152,54 @@ def detect(request):
 
             #GETTING IMAGE FROM POST DATA
             body = json.loads(request.body.decode("utf-8"))
+
+
+            # # check to see if an image was uploaded
+            # if request.FILES.get("image", None) is not None:
+            #     # grab the uploaded image
+            #     image = _grab_image(stream=request.FILES["image"])
+            #     # otherwise, assume that a URL was passed in
+            # else:
+            #     # grab the URL from the request
+            #     url = request.POST.get("url", None)
+            #     # if the URL is None, then return an error
+            #     if url is None:
+            #         data["error"] = "No URL provided."
+            #         return JsonResponse(data)
+            #     # load the image and convert
+            #     image = _grab_image(url=url)
+
+
             base64_string = body['image']
             decoded_data = base64.b64decode(base64_string)
             np_data = np.frombuffer(decoded_data,np.uint8)
             # Grayscale image
             image = cv2.imdecode(np_data,cv2.IMREAD_GRAYSCALE)
+            data.update({"success": True ,"size": image.shape})
+
+            # prediction_count = 1
+            # # #crop image according to bounding boxes
+            # # box = body['boxes']
+            # x1 = box[0][0]
+            # y1 = box[0][1]
+            # x2 = box[0][2]
+            # y2 = box[0][3]
+            # image = image[y1:y2, x1:x2]
+            # prediction = predict_digits(image, model)
+            # data.update({"success": True ,"prediction": prediction})
 
             prediction_count = 1
             #crop image according to bounding boxes
-            bounding_boxes = body['boxes']
-            x1 = box[0][0]
-            y1 = box[0][1]
-            x2 = box[0][2]
-            y2 = box[0][3]
-            image = image[y1:y2, x1:x2]
-            prediction = predict_digits(image, model)
-            data.update({"success": True ,"prediction": prediction})
-
-            # for box in bounding_boxes:
-            #     x1 = box[0]
-            #     y1 = box[1]
-            #     x2 = box[2]
-            #     y2 = box[3]
-            #     temp_img = image[y1:y2, x1:x2]
-            #     prediction = predict_digits(temp_img, model)
-            #     data.update({"prediction"+prediction_count: prediction})
-            #     prediction_count = prediction_count+1
+            box = body['boxes']
+            for box in bounding_boxes:
+                x1 = box[0]
+                y1 = box[1]
+                x2 = box[2]
+                y2 = box[3]
+                temp_img = image[y1:y2, x1:x2]
+                prediction = predict_digits(temp_img, model)
+                data.update({"prediction": prediction})
+                prediction_count = prediction_count+1
 
             # #PREDICTION
             # # prediction = predict_digits(image, model)
@@ -280,6 +302,31 @@ def predict_digits(img, model):
         prediction_list.append(str(prediction))
 
     return prediction_list
+
+
+
+def _grab_image(path=None, stream=None, url=None):
+    # if the path is not None, then load the image from disk
+    if path is not None:
+        image = imread(path, cv2.IMREAD_GRAYSCALE)
+        # image = process_img(image)
+        
+    # otherwise, the image does not reside on disk
+    else:	
+        # if the URL is not None, then download the image
+        if url is not None:
+            resp = urllib.urlopen(url)
+            data = resp.read()
+        # if the stream is not None, then the image has been uploaded
+        elif stream is not None:
+            data = stream.read()
+        # convert the image to a NumPy array and then read it into
+        # OpenCV format
+        image = np.asarray(bytearray(data), dtype="uint8")
+        image = cv2.imdecode(image, cv2.IMREAD_GRAYSCALE)
+        # image = process_img(image)
+    # return the image
+    return image
 
 
 
