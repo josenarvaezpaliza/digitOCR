@@ -196,10 +196,14 @@ def detect(request):
                 y1 = box[1]
                 x2 = box[2]
                 y2 = box[3]
+                data.update({"x1": x1, "y1": y1, "x2": x2, "y2": y2})
+
                 temp_img = image[y1:y2, x1:x2]
+                data.update({"success": True ,"size2": temp_img.shape})
+
                 prediction = predict_digits(temp_img, model)
                 data.update({"prediction": prediction})
-                prediction_count = prediction_count+1
+                # prediction_count = prediction_count+1
 
             # #PREDICTION
             # # prediction = predict_digits(image, model)
