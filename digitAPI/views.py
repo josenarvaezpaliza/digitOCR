@@ -145,20 +145,6 @@ def detect(request):
     # check to see if this is a post request
     if request.method == "POST":
         
-        # # check to see if an image was uploaded
-        # if request.FILES.get("image", None) is not None:
-        #     # grab the uploaded image
-        #     image = _grab_image(stream=request.FILES["image"])
-        #     # otherwise, assume that a URL was passed in
-        # else:
-        #     # grab the URL from the request
-        #     url = request.POST.get("url", None)
-        #     # if the URL is None, then return an error
-        #     if url is None:
-        #         data["error"] = "No URL provided."
-        #         return JsonResponse(data)
-        #     # load the image and convert (NOT PROCESSE IMAGE)
-        #     image = _grab_image(url=url)
         try:
             #GETTING MODEL
             model_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'saved_model/digit_detection')
@@ -175,35 +161,22 @@ def detect(request):
             #PREDICTION
             prediction = predict_digits(image, model)
 
+
+            # GETTING bounding boxes
+            bounding_boxes = body['boxes']
+            for box in bounding_boxes:
+                x1 = box[0]
+                y1 = box[1]
+                x2 = box[2]
+                y2 = box[3]
+                data.update({"success": True ,"x1":x1, "y1":y1, "x2":x2, "y2":y2})
+
             #UPDATE DATA
             data.update({"success": True ,"prediction": prediction})
         except:
             data.update({"success": True ,"prediction": "ERROR"})
 
     return JsonResponse(data)
-
-# def _grab_image(path=None, stream=None, url=None):
-#     # if the path is not None, then load the image from disk
-#     if path is not None:
-#         image = imread(path, cv2.IMREAD_GRAYSCALE)
-#         # image = process_img(image)
-        
-#     # otherwise, the image does not reside on disk
-#     else:	
-#         # if the URL is not None, then download the image
-#         if url is not None:
-#             resp = urllib.urlopen(url)
-#             data = resp.read()
-#         # if the stream is not None, then the image has been uploaded
-#         elif stream is not None:
-#             data = stream.read()
-#         # convert the image to a NumPy array and then read it into
-#         # OpenCV format
-#         image = np.asarray(bytearray(data), dtype="uint8")
-#         image = cv2.imdecode(image, cv2.IMREAD_GRAYSCALE)
-#         # image = process_img(image)
-#     # return the image
-#     return image
 
 def predict_digit(img, model):
     prediction_input = np.array([img])
