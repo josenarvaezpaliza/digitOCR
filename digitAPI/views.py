@@ -190,7 +190,7 @@ def detect(request):
 
             prediction_count = 1
             #crop image according to bounding boxes
-            box = body['boxes']
+            bounding_boxes = body['boxes']
             for box in bounding_boxes:
                 x1 = box[0]
                 y1 = box[1]
