@@ -349,8 +349,8 @@ def detect(request):
                 # data.update({"success": True ,"size2": temp_img.shape})
 
                 prediction = predict_digits(temp_img, model)
-                prediction_string = "prediction"+str(prediction_count)
-                data.update({"'"+prediction_string+"'": prediction})
+                prediction_string = "prediction-"+str(prediction_count)
+                data.update({prediction_string: prediction})
                 prediction_count = prediction_count+1
 
             # #PREDICTION
@@ -424,13 +424,10 @@ def predict_digits(img, model):
     img = pre_process(img)
     coordinates = extract_digits(img)
     
-    # temp_img = cv2.resize(img,(64,64))
+    
 
-    # temp_img = np.dstack(temp_img).T
-
-    # prediction = predict_digit(temp_img, model)
-    prediction_list = []
-    # prediction_list.append(str(prediction))
+    prediction_str = ""
+    # prediction_list = []
     
     for coordinate in coordinates:
         l_x = coordinate[0]
@@ -460,9 +457,10 @@ def predict_digits(img, model):
         temp_img = np.dstack(temp_img).T
 
         prediction = predict_digit(temp_img, model)
-        prediction_list.append(str(prediction))
+        # prediction_list.append(str(prediction))
+        prediction_str = prediction_str + str(prediction)
 
-    return prediction_list
+    return prediction_str
 
 
 
