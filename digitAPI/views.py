@@ -352,12 +352,9 @@ def detect(request):
                 prediction_string = "prediction-"+str(prediction_count)
                 data.update({prediction_string: prediction})
                 prediction_count = prediction_count+1
-
-            # #PREDICTION
-            # # prediction = predict_digits(image, model)
-
-            # #UPDATE DATA
-            # data.update({"success": True ,"prediction": prediction})
+            
+            # update number of predictions
+            data.update("predictions": prediction_count-1)
         except:
             data.update({"success": True ,"prediction": "ERROR"})
 
