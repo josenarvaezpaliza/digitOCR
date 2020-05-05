@@ -343,7 +343,7 @@ def detect(request):
                 y1 = int(box[1])
                 x2 = int(box[2])
                 y2 = int(box[3])
-                # data.update({"x1": x1, "y1": y1, "x2": x2, "y2": y2})
+                data.update({"'"+"x1"+str(prediction_count)+"'": x1, "'"+"y1"+str(prediction_count)+"'": y1, "'"+"x2"+str(prediction_count)+"'": x2, "'"+"y2"+str(prediction_count)+"'": y2})
 
                 temp_img = image[y1:y2, x1:x2]
                 # data.update({"success": True ,"size2": temp_img.shape})
