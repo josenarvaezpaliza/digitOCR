@@ -354,7 +354,7 @@ def detect(request):
                 prediction_count = prediction_count+1
             
             # update number of predictions
-            data.update("predictions": prediction_count-1)
+            data.update({"predictions": prediction_count-1})
         except:
             data.update({"success": True ,"prediction": "ERROR"})
 
